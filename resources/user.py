@@ -1,68 +1,56 @@
-from flask import request
+from flask import request, abort, Response
 from flask_restful import Resource
 from models.user import UserSchema
-
-users = [
-    {
-        "id": 1,
-        "username": "user1",
-        "password": "password123!",
-        "email": "test@mail.com"
-    },
-{
-        "id": 2,
-        "username": "user2",
-        "password": "password123!",
-        "email": "test@mail.com"
-    },
-{
-        "id": 3,
-        "username": "user3",
-        "password": "password123!",
-        "email": "test@mail.com"
-    }
-]
-
+from app.database import db
 class User(Resource):
+    def _find_user(self, user_id):
+        user = db.user.find_unique(
+            where={
+                'id': user_id
+            }
+        )
+        
+        if user is None:
+            abort(404, "User not found")
+            
+        return user
+                
     def get(self, user_id=None):
-        users_list = users
         if user_id:
-            for user in users:
-                if user_id == user["id"]:
-                    return UserSchema().dump(user)
+            user = self._find_user(user_id)
+                
+            return UserSchema().dump(user)
 
+        users_list = db.user.find_many()
         return {
             "data": UserSchema(many=True).dump(users_list)
         }
 
     def post(self):
-        index_u = None
         data = request.get_json()
         user = UserSchema().load(data)
-        user['id'] = users[-1]['id'] +1
-        user = UserSchema().dump(user)
-        users.append(user)
-        return user
+        created_user = db.user.create(
+            data= user
+        )
+        return UserSchema().dump(created_user)
 
     def put(self, user_id: int):
         data = request.get_json()
-        user = None
-        for u in users:
-            if user_id == u["id"]:
-                index_u = users.index(u)
-                user = UserSchema().dump(u)
-        for key in data.keys():
-             user[key] = data[key]
-
-        users[index_u] = user
-
-
-        return user
+        user = self._find_user(user_id)
+        updated_user = db.user.update(
+            where={
+                'id': user.id
+            },
+            data=data
+        )
+        
+        return UserSchema().dump(updated_user)
 
     def delete(self, user_id: int):
-        for u in users:
-            if user_id == u["id"]:
-                index_u = users.index(u)
-        users.pop(index_u)
-
+        user = self._find_user(user_id)
+        db.user.delete(
+            where={
+                'id': user.id
+            }
+        )
         return 204
