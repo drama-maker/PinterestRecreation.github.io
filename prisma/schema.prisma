@@ -13,4 +13,17 @@ model User {
     username String
     password String
     email String
+    registrationDate DateTime
+    profilePic String?
+    firstName String
+    lastName String?
+    birthdate DateTime
+    gender String?
+    pronouns String
+    country String
+    language String
+    about String?
+    websiteURL String?
+    isDeactivated Boolean
+    isDeleted Boolean
 }
