@@ -1,0 +1,20 @@
+.homeLogo {
+    background: url('../../assets/images/logo.jpg') no-repeat;
+    background-position: center;
+    height: 10%;
+}
+
+.hide-text {
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+h2 {
+    font-family: "Georgia", serif;
+    color: black;
+    font-size: 24px;
+    font-weight: normal;
+    text-align: center;
+    margin-bottom: 30px;
+}

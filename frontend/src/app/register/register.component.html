@@ -1,0 +1,31 @@
+<div class="position-relative">
+    <div class="position-absolute top-50 start-50">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Zarejestruj się przez email</h5>
+                <div class="containter">
+                    <div class="row">
+                        <div class="col">
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            placeholder="Imię" 
+                            [(ngModel)]="user.name">
+
+                        </div>
+                        <div class="col">
+                            <input 
+                            type="text" 
+                            class="form-control" 
+                            placeholder="Nazwisko" 
+                            [(ngModel)]="user.surname">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button type="button" class="btn btn-secondary" (click)="showData()">Sprawdz dane</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
