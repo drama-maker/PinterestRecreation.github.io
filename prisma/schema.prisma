@@ -5,25 +5,54 @@ datasource db {
 
 generator db {
   provider  = "prisma-client-py"
+  output    = "./generated/client"
   interface = "sync"
 }
 
 model User {
-    id  Int @id @default(autoincrement())
-    username String
-    password String
-    email String
-    registrationDate DateTime
-    profilePic String?
-    firstName String
-    lastName String?
-    birthdate DateTime
-    gender String?
-    pronouns String
-    country String
-    language String
-    about String?
-    websiteURL String?
-    isDeactivated Boolean
-    isDeleted Boolean
+    id              Int       @id @default(autoincrement())
+    username        String    @unique
+    password        String
+    email           String    @unique
+    registrationDate DateTime  @default(now())
+    profilePic      String?
+    firstName       String?
+    lastName        String?
+    birthdate       DateTime?
+    gender          String?
+    pronouns        String?
+    country         String?
+    language        String?
+    about           String?
+    websiteURL      String?
+    isDeactivated   Boolean   @default(false)
+    isDeleted       Boolean   @default(false)
+}
+
+model SearchHistory {
+    id          Int      @id @default(autoincrement())
+    userId      Int
+    searchQuery String
+    createdAt   DateTime @default(now())
+}
+
+model ProfileVisibility {
+    id                 Int     @id @default(autoincrement())
+    isPrivateProfile   Boolean @default(false)
+    isSearchPrivacy    Boolean @default(false)
+}
+
+model Pin {
+    id            Int      @id @default(autoincrement())
+    title         String
+    description   String?
+    imageUrl      String
+    searchKeywords String[]
+    createdAt     DateTime @default(now())
+    isDeleted     Boolean  @default(false)
+}
+
+model Board {
+    id   Int    @id @default(autoincrement())
+    name String
 }

@@ -9,6 +9,8 @@ flask-restful = "*"
 marshmallow = "*"
 typing = "*"
 prisma = "*"
+npm = "*"
+pipenv = "*"
 
 [dev-packages]
 
